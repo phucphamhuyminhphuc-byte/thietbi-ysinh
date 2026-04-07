@@ -6,7 +6,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch('https://YOUR-SERVER.onrender.com/login', {
+      const res = await fetch('https://thietbi-ysinh-1.onrender.com/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

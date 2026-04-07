@@ -5,8 +5,7 @@ function Register() {
   const [password, setPassword] = useState('');
 
   const handleRegister = async () => {
-    try {
-      const res = await fetch('https://YOUR-SERVER.onrender.com/register', {
+    try {    const res = await fetch(''https://thietbi-ysinh1.onrender.com/register'', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
