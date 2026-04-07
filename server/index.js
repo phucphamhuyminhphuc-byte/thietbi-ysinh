@@ -5,28 +5,27 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// dữ liệu tạm
 let products = [];
 let users = [];
 
-// test server
 app.get('/', (req, res) => {
   res.send('Server OK');
 });
 
-// thêm sản phẩm
+app.get('/products', (req, res) => {
+  res.json(products);
+});
+
 app.post('/products', (req, res) => {
   products.push(req.body);
   res.json({ message: 'Thêm thành công' });
 });
 
-// đăng ký
 app.post('/register', (req, res) => {
   users.push(req.body);
   res.json({ message: 'Đăng ký ok' });
 });
 
-// đăng nhập
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -41,7 +40,8 @@ app.post('/login', (req, res) => {
   }
 });
 
-// chạy server
-app.listen(5000, () => {
-  console.log('Server chạy tại http://localhost:5000');
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server chạy tại port ${PORT}`);
 });
