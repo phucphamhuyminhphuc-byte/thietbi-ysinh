@@ -5,27 +5,33 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// dữ liệu tạm
 let products = [];
 let users = [];
 
+// test server
 app.get('/', (req, res) => {
   res.send('Server OK');
 });
 
+// lấy danh sách sản phẩm (QUAN TRỌNG)
 app.get('/products', (req, res) => {
   res.json(products);
 });
 
+// thêm sản phẩm
 app.post('/products', (req, res) => {
   products.push(req.body);
-  res.json({ message: 'Thêm thành công' });
+  res.json({ message: 'Thêm thành công', data: products });
 });
 
+// đăng ký
 app.post('/register', (req, res) => {
   users.push(req.body);
   res.json({ message: 'Đăng ký ok' });
 });
 
+// đăng nhập
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -40,6 +46,7 @@ app.post('/login', (req, res) => {
   }
 });
 
+// PORT cho Render
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
