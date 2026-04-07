@@ -1,5 +1,6 @@
 import { useNavigate, Routes, Route } from 'react-router-dom';
 import ProductDetail from './ProductDetail';
+import Login from './Login';
 
 function App() {
   const navigate = useNavigate();
@@ -25,24 +26,54 @@ function App() {
     }
   ];
 
+  // 🔥 gọi API thêm sản phẩm
+  const addToServer = (item) => {
+    fetch('http://localhost:5000/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(item)
+    })
+      .then(res => res.json())
+      .then(data => alert(data.message))
+      .catch(() => alert('Lỗi kết nối server'));
+  };
+
   return (
     <Routes>
+
+      {/* Trang chính */}
       <Route
         path="/"
         element={
           <div style={{ fontFamily: 'Arial', background: '#f5f5f5', minHeight: '100vh' }}>
-            
+
             {/* Header */}
             <div style={{
               background: '#2c3e50',
               color: 'white',
               padding: '15px 20px',
-              fontSize: '20px'
+              fontSize: '20px',
+              display: 'flex',
+              justifyContent: 'space-between'
             }}>
-              Thiết bị y sinh
+              <span>Thiết bị y sinh</span>
+
+              <button
+                onClick={() => navigate('/login')}
+                style={{
+                  background: '#3498db',
+                  color: 'white',
+                  border: 'none',
+                  padding: '8px 12px',
+                  borderRadius: '5px',
+                  cursor: 'pointer'
+                }}
+              >
+                Đăng nhập
+              </button>
             </div>
 
-            {/* Danh sách */}
+            {/* Danh sách sản phẩm */}
             <div style={{
               display: 'flex',
               gap: '20px',
@@ -60,6 +91,7 @@ function App() {
                   <p>Giá: {item.price}</p>
                   <p>Tuổi thọ: {item.lifespan}</p>
 
+                  {/* xem chi tiết */}
                   <button
                     onClick={() => navigate(`/product/${item.id}`)}
                     style={{
@@ -68,10 +100,26 @@ function App() {
                       border: 'none',
                       padding: '8px 12px',
                       borderRadius: '5px',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      marginRight: '10px'
                     }}
                   >
                     Xem chi tiết
+                  </button>
+
+                  {/* thêm lên server */}
+                  <button
+                    onClick={() => addToServer(item)}
+                    style={{
+                      background: '#2ecc71',
+                      color: 'white',
+                      border: 'none',
+                      padding: '8px 12px',
+                      borderRadius: '5px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Thêm server
                   </button>
                 </div>
               ))}
@@ -80,7 +128,12 @@ function App() {
         }
       />
 
+      {/* Trang chi tiết */}
       <Route path="/product/:id" element={<ProductDetail />} />
+
+      {/* Trang login */}
+      <Route path="/login" element={<Login />} />
+
     </Routes>
   );
 }

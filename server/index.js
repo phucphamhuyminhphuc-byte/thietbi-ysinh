@@ -1,0 +1,47 @@
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// dữ liệu tạm
+let products = [];
+let users = [];
+
+// test server
+app.get('/', (req, res) => {
+  res.send('Server OK');
+});
+
+// thêm sản phẩm
+app.post('/products', (req, res) => {
+  products.push(req.body);
+  res.json({ message: 'Thêm thành công' });
+});
+
+// đăng ký
+app.post('/register', (req, res) => {
+  users.push(req.body);
+  res.json({ message: 'Đăng ký ok' });
+});
+
+// đăng nhập
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  const user = users.find(
+    u => u.email === email && u.password === password
+  );
+
+  if (user) {
+    res.json({ message: 'Đăng nhập thành công' });
+  } else {
+    res.status(401).json({ message: 'Sai tài khoản' });
+  }
+});
+
+// chạy server
+app.listen(5000, () => {
+  console.log('Server chạy tại http://localhost:5000');
+});
